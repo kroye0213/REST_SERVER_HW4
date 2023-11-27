@@ -11,6 +11,16 @@ exports.getCustomers = ( req, res, next ) => {
 
         })
  }
+ exports.getTopCustomers = ( req, res, next ) => {
+    Customer.getTopCustomers()
+        .then(( rows, fieldData ) => {
+            console.log( "ROws="); console.log( rows );
+            // res.send( "Is seems ok ");
+            // res.send( "Is seems ok ");
+            res.status(200).json( rows[0]);
+
+        })
+ }
 
 exports.getCustomerDetails = ( req, res, next ) => {
     let id = req.params.id;
@@ -51,4 +61,23 @@ exports.deleteCustomer = (req, res, next) => {
             console.log(err);
             res.status(500).json({ message: 'Internal Server Error' });
         });
+
 };
+exports.updateCustomer = (req, res) => {
+    const custId = req.params.id;
+ Customer.update(custId)
+        .then(result => {
+            if (result.affectedRows > 0) {
+                res.status(200).json({ message: 'Customer updated successfully' });
+            } else {
+                res.status(404).json({ message: 'Customer not found' });
+            }
+        })
+        .catch(err => {
+            console.log('DB Error:');
+            console.log(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+        });
+}
+
+

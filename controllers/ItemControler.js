@@ -11,6 +11,16 @@ exports.getItems = ( req, res, next ) => {
 
         })
  }
+ exports.getTopItems = ( req, res, next ) => {
+    Item.getTopProducts()
+        .then(( rows, fieldData ) => {
+            console.log( "ROws="); console.log( rows );
+            // res.send( "Is seems ok ");
+            // res.send( "Is seems ok ");
+            res.status(200).json( rows[0]);
+
+        })
+ }
 
 exports.getItemDetails = ( req, res, next ) => {
     let id = req.params.id;

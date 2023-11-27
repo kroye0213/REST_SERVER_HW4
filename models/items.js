@@ -19,8 +19,14 @@ module.exports = class items {
             [id]
         )
     }
-    static fetchAll(){
-      return db.execute( "select * from item");
+     static fetchAll(){
+      return db.execute( "select * from customer");
+    }
+    static getTopProducts(){
+      return db.execute( 'SELECT i.ItemName, COALESCE(SUM(i.ItemPrice * s.Quantity), 0) AS TotalSales ' +
+        'FROM item i LEFT JOIN sales s ON i.ItemID = s.ItemID ' +
+        'GROUP BY i.ItemName ' +
+        'ORDER BY TotalSales DESC');
     }
     static findById( id ){
         return db.execute( "select * from item where ItemID = ?",
