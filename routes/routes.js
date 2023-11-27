@@ -15,12 +15,14 @@ router.post( '/customers', CustomerControler.postAddCustomer);
 router.get( '/item', ItemControler.getItems);
 router.get( '/topitem', ItemControler.getTopItems);
 router.get( '/item/:id', ItemControler.getItemDetails);
+router.get( '/updateitem/:id', ItemControler.updateItem);
 router.get( '/deleteitem/:id', ItemControler.deleteItems);
 router.post( '/item', ItemControler.postAddItem);
 
 router.get( '/sales', SalesControler.getSales);
 router.get( '/topsales', SalesControler.getTopSales);
 router.get( '/sales/:id', SalesControler.getSalesDetails);
+router.get( '/updatesales/:id', SalesControler.updateSales);
 router.get( '/deletesale/:id', SalesControler.deleteSales);
 router.post( '/sales', SalesControler.postAddSales);
 

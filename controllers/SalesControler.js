@@ -1,4 +1,5 @@
 const Sales = require("../models/sales");
+const Customer = require("../models/customer");
 // let Books = [];
 
 exports.getSales = ( req, res, next ) => {
@@ -64,3 +65,19 @@ exports.deleteSales = (req, res, next) => {
             res.status(500).json({ message: 'Internal Server Error' });
         });
 };
+exports.updateSales = (req, res) => {
+    const custId = req.params.id;
+ Sales.update(custId)
+        .then(result => {
+            if (result.affectedRows > 0) {
+                res.status(200).json({ message: 'Sales updated successfully' });
+            } else {
+                res.status(404).json({ message: 'Sale not found' });
+            }
+        })
+        .catch(err => {
+            console.log('DB Error:');
+            console.log(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+        });
+}
