@@ -20,7 +20,7 @@ module.exports = class items {
         )
     }
      static fetchAll(){
-      return db.execute( "select * from customer");
+      return db.execute( "select * from item");
     }
     static getTopProducts(){
       return db.execute( 'SELECT i.ItemName, COALESCE(SUM(i.ItemPrice * s.Quantity), 0) AS TotalSales ' +
