@@ -33,7 +33,7 @@ module.exports = class items {
             [id] );
     }
     update ( id ){
-        return db.execute( "UPDATE customer SET ItemID = ?, ItemName = ?, ItemPrice = ?  WHERE id = ?",
+        return db.execute( "UPDATE item SET ItemID = ?, ItemName = ?, ItemPrice = ?  WHERE id = ?",
             [this.ItemID, this.ItemName, this.ItemPrice, id ] );
     }
 }

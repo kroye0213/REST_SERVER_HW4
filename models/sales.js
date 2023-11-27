@@ -22,7 +22,7 @@ module.exports = class sales {
         )
     }
      static fetchAll(){
-      return db.execute( "select * from customer");
+      return db.execute( "select * from sales");
     }
     static getTopSales(){
       return db.execute('SELECT \n' +
@@ -46,7 +46,7 @@ module.exports = class sales {
             [id] );
     }
     update ( id ){
-        return db.execute( "UPDATE customer SET SalesID = ?, CustomerID = ?, ItemID = ?, Quantity = ?, SalesDate = ?  WHERE id = ?",
+        return db.execute( "UPDATE sales SET SalesID = ?, CustomerID = ?, ItemID = ?, Quantity = ?, SalesDate = ?  WHERE id = ?",
             [this.SalesID, this.CustomerID, this.ItemID, this.Quantity, this.SalesDate, id ] );
     }
 }
