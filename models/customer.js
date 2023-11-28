@@ -23,19 +23,28 @@ module.exports = class customer {
       return db.execute( "select * from customer");
     }
     static getTopCustomers(){
-        return db.execute('SELECT c.CustomerID, c.CustomerName, c.CustomerEmail, SUM(i.ItemPrice * s.Quantity) AS TotalSales \n' +
-        'FROM customer c \n' +
-        'LEFT JOIN sales s ON c.CustomerID = s.CustomerID \n' +
-        'LEFT JOIN item i ON s.ItemID = i.ItemID \n' +
-        'GROUP BY c.CustomerID \n' +
-        'ORDER BY TotalSales DESC;')
+        return db.execute("SELECT\n" +
+            "    c.CustomerID,\n" +
+            "    c.CustomerName,\n" +
+            "    c.CustomerEmail,\n" +
+            "    SUM(i.ItemPrice * s.Quantity) AS TotalSales\n" +
+            "FROM\n" +
+            "    customer c\n" +
+            "LEFT JOIN\n" +
+            "    sales s ON c.CustomerID = s.CustomerID\n" +
+            "LEFT JOIN\n" +
+            "    item i ON s.ItemID = i.ItemID\n" +
+            "GROUP BY\n" +
+            "    c.CustomerID\n" +
+            "ORDER BY\n" +
+            "    TotalSales DESC;\n");
     }
     static findById( id ){
         return db.execute( "select * from customer where CustomerID = ?",
             [id] );
     }
-   update ( id ){
-        return db.execute( "UPDATE customer SET CustomerID = ?, CustomerName = ?, CustomerEmail = ?  WHERE id = ?",
-            [this.CustomerID, this.CustomerName, this.CustomerEmail, id ] );
-    }
+       update ( id ){
+            return db.execute( "UPDATE customer SET CustomerID = ?, CustomerName = ?, CustomerEmail = ?  WHERE id = ?",
+                [this.CustomerID, this.CustomerName, this.CustomerEmail, id ] );
+        }
 }
