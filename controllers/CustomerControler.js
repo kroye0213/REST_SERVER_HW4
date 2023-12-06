@@ -63,21 +63,27 @@ exports.deleteCustomer = (req, res, next) => {
         });
 
 };
-exports.updateCustomer = (req, res) => {
-    const custId = req.params.id;
- Customer.update(custId)
-        .then(result => {
-            if (result.affectedRows > 0) {
-                res.status(200).json({ message: 'Customer updated successfully' });
-            } else {
-                res.status(404).json({ message: 'Customer not found' });
-            }
-        })
-        .catch(err => {
-            console.log('DB Error:');
-            console.log(err);
-            res.status(500).json({ message: 'Internal Server Error' });
-        });
-}
+exports.updateCustomer = async (req, res) => {
+  const custId = req.params.id;
+  const { CustomerName, CustomerEmail } = req.body;
+
+  try {
+    const updatedCustomer = await Customer.update(
+      custId,
+      CustomerName,
+      CustomerEmail
+    );
+
+    if (updatedCustomer) {
+      res.status(200).json({ message: 'Customer updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Customer not found' });
+    }
+  } catch (err) {
+    console.error('DB Error:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 
 
