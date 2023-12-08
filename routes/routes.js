@@ -8,22 +8,20 @@ const SalesControler = require("../controllers/SalesControler");
 router.get( '/topcustomers', CustomerControler.getTopCustomers);
 router.get( '/customers', CustomerControler.getCustomers);
 router.get( '/customers/:id', CustomerControler.getCustomerDetails);
-router.get( '/updatecustomers/:id', CustomerControler.updateCustomer);
-router.get( '/deletecustomer/:id', CustomerControler.deleteCustomer);
-router.post( '/customers', CustomerControler.postAddCustomer);
+router.put( '/updatecustomers/:id', CustomerControler.updateCustomer);
+router.delete( '/deletecustomer/:id', CustomerControler.deleteCustomer);
+router.post( '/addcustomers', CustomerControler.addCustomer);
 
 router.get( '/item', ItemControler.getItems);
 router.get( '/topitem', ItemControler.getTopItems);
 router.get( '/item/:id', ItemControler.getItemDetails);
-router.get( '/updateitem/:id', ItemControler.updateItem);
-router.get( '/deleteitem/:id', ItemControler.deleteItems);
-router.post( '/item', ItemControler.postAddItem);
+router.put( '/updateitem/:id', ItemControler.updateItem);
+router.delete( '/deleteitem/:id', ItemControler.deleteItem);
+router.post( '/additem', ItemControler.addItem);
 
 router.get( '/sales', SalesControler.getSales);
 router.get( '/topsales', SalesControler.getTopSales);
-router.get( '/sales/:id', SalesControler.getSalesDetails);
-router.get( '/updatesales/:id', SalesControler.updateSales);
-router.get( '/deletesale/:id', SalesControler.deleteSales);
-router.post( '/sales', SalesControler.postAddSales);
+
+
 
 exports.routes = router;

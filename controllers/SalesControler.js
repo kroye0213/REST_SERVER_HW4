@@ -35,49 +35,4 @@ exports.getSalesDetails = ( req, res, next ) => {
         console.log( err );
     })
 }
-exports.postAddSales = (req, res, next) =>{
-    console.log("FL0 ->"); console.log(req.body);
-     let ID = req.body.SalesID;
-    let custID = req.body.CustomerID;
-    let itemID = req.body.ItemID;
-    let quantity = req.body.Quantity
-    let Sales = req.body.SalesDate
 
-    let obj ={ID, custID, itemID, quantity, Sales};
-    console.log("FL1 ->"); console.log(obj);
-    const sales = new Sales (ID, custID, itemID, quantity, Sales);
-    sales.save();
-}
-exports.deleteSales = (req, res, next) => {
-    const saleID = req.params.id;
-
-    Sales.delete(saleID)
-        .then(result => {
-            if (result.affectedRows > 0) {
-                res.status(200).json({ message: 'Sale deleted successfully' });
-            } else {
-                res.status(404).json({ message: 'Sale not found' });
-            }
-        })
-        .catch(err => {
-            console.log('DB Error:');
-            console.log(err);
-            res.status(500).json({ message: 'Internal Server Error' });
-        });
-};
-exports.updateSales = (req, res) => {
-    const custId = req.params.id;
- Sales.update(custId)
-        .then(result => {
-            if (result.affectedRows > 0) {
-                res.status(200).json({ message: 'Sales updated successfully' });
-            } else {
-                res.status(404).json({ message: 'Sale not found' });
-            }
-        })
-        .catch(err => {
-            console.log('DB Error:');
-            console.log(err);
-            res.status(500).json({ message: 'Internal Server Error' });
-        });
-}

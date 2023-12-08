@@ -43,8 +43,15 @@ module.exports = class customer {
         return db.execute( "select * from customer where CustomerID = ?",
             [id] );
     }
-      update ( id ){
-            return db.execute( "UPDATE customer SET CustomerName = ?, CustomerEmail = ?  WHERE id = ?",
-                [this.CustomerName, this.CustomerEmail, id ] );
-        }
+
+    static updateCustomerModel(id, updatedName, updatedEmail) {
+  return db.execute("UPDATE customer SET CustomerName = ?, CustomerEmail = ? WHERE CustomerID = ?",
+    [updatedName, updatedEmail, id]
+  );
+}
+static addCustomerModel(name, email) {
+    return db.execute('INSERT INTO customer (CustomerName, CustomerEmail) VALUES (?, ?)', [name, email]);
+
+    }
+
 }

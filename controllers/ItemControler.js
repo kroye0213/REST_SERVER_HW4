@@ -35,47 +35,72 @@ exports.getItemDetails = ( req, res, next ) => {
         console.log( err );
     })
 }
-exports.postAddItem = (req, res, next) =>{
-    console.log("FL0 ->"); console.log(req.body);
-    let ID = req.body.ItemID;
-    let name = req.body.ItemName;
-    let price = req.body.ItemPrice;
 
-    let obj ={ID, name, price};
-    console.log("FL1 ->"); console.log(obj);
-    const items = new Item (ID,name,price);
-    items.save();
+ exports.addItem = async (req, res) => {
+  const { ItemName, ItemPrice } = req.body;
+
+  try {
+    // Assume Customer.update is a function that updates the customer
+    const updatedItem = await Item.addItemModel(
+      ItemName,
+      ItemPrice
+    );
+
+    if (updatedItem) {
+      res.status(200).json({ message: 'Item updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Item not found' });
+    }
+  } catch (err) {
+    console.error('Error updating Item:', err);
+
+
+    res.status(500).json({ message: 'Internal Server Error' });
+
+  }
+
+
 }
-exports.deleteItems = (req, res, next) => {
-    const itemId = req.params.id;
+exports.deleteItem = async (req, res, next) => {
+  const itemId = req.params.id;
 
-    Item.delete(itemId)
-        .then(result => {
-            if (result.affectedRows > 0) {
-                res.status(200).json({ message: 'Item deleted successfully' });
-            } else {
-                res.status(404).json({ message: 'Item not found' });
-            }
-        })
-        .catch(err => {
-            console.log('DB Error:');
-            console.log(err);
-            res.status(500).json({ message: 'Internal Server Error' });
-        });
+  try {
+    // Assume Item.delete is a function that deletes the item
+    const deletedItem = await Item.delete(itemId);
+
+    if (deletedItem) {
+      res.status(200).json({ message: 'Item deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Item not found' });
+    }
+  } catch (err) {
+    console.error('Error deleting Item:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };
-exports.updateItem = (req, res) => {
-    const custId = req.params.id;
- Item.update(custId)
-        .then(result => {
-            if (result.affectedRows > 0) {
-                res.status(200).json({ message: 'Item updated successfully' });
-            } else {
-                res.status(404).json({ message: 'Item not found' });
-            }
-        })
-        .catch(err => {
-            console.log('DB Error:');
-            console.log(err);
-            res.status(500).json({ message: 'Internal Server Error' });
-        });
+
+ exports.updateItem = async (req, res) => {
+  const itemId = req.params.id;
+  const { ItemName, ItemPrice } = req.body;
+
+  try {
+    // Assume Customer.update is a function that updates the customer
+    const updatedItem = await Item.updateItemModel(
+      itemId,
+      ItemName,
+      ItemPrice
+    );
+
+    if (updatedItem) {
+      res.status(200).json({ message: 'Item updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Item not found' });
+    }
+  } catch (err) {
+    console.error('Error updating Item:', err);
+
+
+    res.status(500).json({ message: 'Internal Server Error' });
+     console.log('Item ID:', itemId);
+  }
 }

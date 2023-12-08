@@ -23,7 +23,7 @@ module.exports = class items {
       return db.execute( "select * from item");
     }
     static getTopProducts(){
-      return db.execute( 'SELECT i.ItemName, COALESCE(SUM(i.ItemPrice * s.Quantity), 0) AS TotalSales ' +
+      return db.execute( 'SELECT i.ItemID,i.ItemName, COALESCE(SUM(i.ItemPrice * s.Quantity), 0) AS TotalSales ' +
         'FROM item i LEFT JOIN sales s ON i.ItemID = s.ItemID ' +
         'GROUP BY i.ItemName ' +
         'ORDER BY TotalSales DESC');
@@ -32,8 +32,13 @@ module.exports = class items {
         return db.execute( "select * from item where ItemID = ?",
             [id] );
     }
-    update ( id ){
-        return db.execute( "UPDATE item SET ItemID = ?, ItemName = ?, ItemPrice = ?  WHERE id = ?",
-            [this.ItemID, this.ItemName, this.ItemPrice, id ] );
+    static updateItemModel(id, updatedName, updatedPrice) {
+  return db.execute("UPDATE item SET ItemName = ?, ItemPrice = ? WHERE ItemID = ?",
+    [updatedName, updatedPrice, id]
+  );
+}
+static addItemModel(name, price) {
+    return db.execute('INSERT INTO item (ItemName, ItemPrice) VALUES (?, ?)', [name, price]);
+
     }
 }

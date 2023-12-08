@@ -1,4 +1,5 @@
 const Customer = require("../models/customer");
+const Item = require("../models/items");
 // let Books = [];
 
 exports.getCustomers = ( req, res, next ) => {
@@ -34,41 +35,58 @@ exports.getCustomerDetails = ( req, res, next ) => {
         console.log( err );
     })
 }
-exports.postAddCustomer = (req, res, next) =>{
-    console.log("FL0 ->"); console.log(req.body);
-    let ID = req.body.CustomerID;
-    let name = req.body.CustomerName;
-    let email = req.body.CustomerEmail;
+exports.addCustomer = async (req, res) => {
 
-    let obj ={ID, name, email};
-    console.log("FL1 ->"); console.log(obj);
-    const customer = new Customer (ID,name,email);
-    customer.save();
-}
-exports.deleteCustomer = (req, res, next) => {
-    const custId = req.params.id;
+  const { CustomerName, CustomerEmail } = req.body;
 
-    Customer.delete(custId)
-        .then(result => {
-            if (result.affectedRows > 0) {
-                res.status(200).json({ message: 'Customer deleted successfully' });
-            } else {
-                res.status(404).json({ message: 'Customer not found' });
-            }
-        })
-        .catch(err => {
-            console.log('DB Error:');
-            console.log(err);
-            res.status(500).json({ message: 'Internal Server Error' });
-        });
+  try {
+    // Assume Customer.update is a function that updates the customer
+    const updatedCustomer = await Customer.addCustomerModel(
 
+      CustomerName,
+      CustomerEmail
+    );
+
+    if (updatedCustomer) {
+      res.status(200).json({ message: 'Customer updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Customer not found' });
+    }
+  } catch (err) {
+    console.error('Error updating customer:', err);
+
+
+    res.status(500).json({ message: 'Internal Server Error' });
+
+  }
 };
+
+exports.deleteCustomer = async (req, res, next) => {
+  const custId = req.params.id;
+
+  try {
+    // Assume Item.delete is a function that deletes the item
+    const deletedCust = await Customer.delete(custId);
+
+    if (deletedCust) {
+      res.status(200).json({ message: 'Customer deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Customer not found' });
+    }
+  } catch (err) {
+    console.error('Error deleting Customer:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
 exports.updateCustomer = async (req, res) => {
   const custId = req.params.id;
   const { CustomerName, CustomerEmail } = req.body;
 
   try {
-    const updatedCustomer = await Customer.update(
+    // Assume Customer.update is a function that updates the customer
+    const updatedCustomer = await Customer.updateCustomerModel(
       custId,
       CustomerName,
       CustomerEmail
@@ -80,8 +98,11 @@ exports.updateCustomer = async (req, res) => {
       res.status(404).json({ message: 'Customer not found' });
     }
   } catch (err) {
-    console.error('DB Error:', err);
+    console.error('Error updating customer:', err);
+
+
     res.status(500).json({ message: 'Internal Server Error' });
+     console.log('Customer ID:', custId);
   }
 };
 

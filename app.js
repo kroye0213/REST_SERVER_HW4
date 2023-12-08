@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
+const cors = require('cors');
 const db = require("./util/database");
-const booksRoutes = require("./routes/routes");
+const ServerRoutes = require("./routes/routes");
 const bodyParser = require("body-parser");
 app.use( bodyParser.json()); // for JSON input data
+app.use(cors())
     // / create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -17,7 +19,7 @@ app.use( (req, res, next ) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
-app.use( booksRoutes.routes);
+app.use( ServerRoutes.routes);
 
 
 const path = require("path");
